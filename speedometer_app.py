@@ -4,6 +4,7 @@ from PySide6.QtCore import QTimer
 import sys
 from CustomGauge import CustomGauge
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = QWidget()
