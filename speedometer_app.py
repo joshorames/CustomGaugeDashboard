@@ -23,7 +23,9 @@ if __name__ == "__main__":
         start_angle=210,
         end_angle=-30,
         bottom_text_size=10,
-        label_size=10
+        label_size=10,
+        value_size=10,
+        label_spacing=0.65
     )
     oil_gauge.setFixedSize(200, 200)
     left_grid.addWidget(oil_gauge, 0, 0)
@@ -40,7 +42,9 @@ if __name__ == "__main__":
         start_angle=210,
         end_angle=-30,
         bottom_text_size=10,
-        label_size=10
+        label_size=10,
+        value_size=10,
+        label_spacing=0.65
     )
     water_gauge.setFixedSize(200, 200)
     left_grid.addWidget(water_gauge, 0, 1)
@@ -57,7 +61,9 @@ if __name__ == "__main__":
         start_angle=210,
         end_angle=-30,
         bottom_text_size=10,
-        label_size=10
+        label_size=10,
+        value_size=10,
+        label_spacing=0.65
     )
     volt_gauge.setFixedSize(200, 200)
     left_grid.addWidget(volt_gauge, 1, 0)
@@ -74,7 +80,9 @@ if __name__ == "__main__":
         start_angle=210,
         end_angle=-30,
         bottom_text_size=10,
-        label_size=10
+        label_size=10,
+        value_size=10,
+        label_spacing=0.65
     )
     fuel_gauge.setFixedSize(200, 200)
     left_grid.addWidget(fuel_gauge, 1, 1)
@@ -94,7 +102,8 @@ if __name__ == "__main__":
         minor_tick=10,
         start_angle=210,
         end_angle=-30,
-        odometer=True
+        odometer=True,
+        label_spacing=0.70
     )
     speedometer.setFixedSize(400, 400)
     center_row.addWidget(speedometer)
@@ -109,7 +118,8 @@ if __name__ == "__main__":
         major_tick=1,
         minor_tick=1,
         start_angle=210,
-        end_angle=-30
+        end_angle=-30,
+        label_spacing=0.70
     )
     tachometer.setFixedSize(400, 400)
     center_row.addWidget(tachometer)

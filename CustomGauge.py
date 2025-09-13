@@ -22,7 +22,9 @@ class CustomGauge(QWidget):
         parent=None,
         odometer=False,
         bottom_text_size=14,
-        label_size=16
+        label_size=16,
+        value_size=16,
+        label_spacing=0.65
     ):
         """_summary_
 
@@ -54,6 +56,8 @@ class CustomGauge(QWidget):
         self.odometer = odometer
         self.bottom_text_size = bottom_text_size 
         self.label_size = label_size
+        self.value_size = value_size
+        self.label_spacing = label_spacing
 
     def set_value(self, value):
         """_summary_
@@ -77,15 +81,11 @@ class CustomGauge(QWidget):
         painter.drawEllipse(center, radius, radius)
 
         # Undo text size scaling: use fixed font sizes
-        if self.max_value > 1000:
-            painter.setFont(QFont("Arial", 14, QFont.Bold))
-            number_offset = radius * 0.55  # Move numbers further inward
-            text_box = 32                  # Increase bounding box
-        else:
-            painter.setFont(QFont("Arial", 18, QFont.Bold))
-            number_offset = radius * 0.65  # Move numbers further inward
-            text_box = 36                  # Increase bounding box
-
+   
+        painter.setFont(QFont("Arial", self.value_size, QFont.Bold))
+        number_offset = radius * self.label_spacing  # Move numbers further inward
+        text_box = 32                  # Increase bounding box
+       
         tick_outer = radius
         tick_inner = radius * 0.85
         minor_tick_inner = radius * 0.92
