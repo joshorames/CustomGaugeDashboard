@@ -26,6 +26,8 @@
 
 ```bash
 pip install PySide6
+end
+```
 
 ---
 
