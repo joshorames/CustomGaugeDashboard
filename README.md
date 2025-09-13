@@ -33,21 +33,24 @@ end
 
 ## 📚 API Overview
 
-| Parameter       | Type        | Description                               |
-| --------------- | ----------- | ----------------------------------------- |
-| `label`         | `str`       | Main label (e.g., "RPM", "FUEL")          |
-| `units`         | `str`       | Units shown (e.g., "PSI", "°F")           |
-| `min_value`     | `int/float` | Minimum gauge value                       |
-| `max_value`     | `int/float` | Maximum gauge value                       |
-| `major_tick`    | `int/float` | Step for major ticks                      |
-| `minor_tick`    | `int/float` | Step for minor ticks                      |
-| `start_angle`   | `int`       | Starting angle (degrees)                  |
-| `end_angle`     | `int`       | Ending angle (degrees)                    |
-| `needle_color`  | `QColor`    | Needle color                              |
-| `dial_color`    | `QColor`    | Dial arc color                            |
-| `label_spacing` | `float`     | Adjust spacing between dial and labels    |
-| `odometer`      | `bool`      | Enable odometer display (for speedometer) |
-| `needle`        | `bool`      | Show or hide the needle                   |
+| Parameter          | Type        | Default | Description                              |
+| ------------------ | ----------- | ------- | ---------------------------------------- |
+| `label`            | `str`       | `""`    | Gauge label (e.g., RPM, MPH, FUEL)       |
+| `units`            | `str`       | `""`    | Units displayed below the value          |
+| `needle_color`     | `QColor`    | black   | Color of the needle                      |
+| `dial_color`       | `QColor`    | gray    | Color of the dial arc                    |
+| `min_value`        | `int/float` | 0       | Minimum scale value                      |
+| `max_value`        | `int/float` | 100     | Maximum scale value                      |
+| `major_tick`       | `int`       | 10      | Step between major ticks                 |
+| `minor_tick`       | `int`       | 5       | Step between minor ticks                 |
+| `start_angle`      | `int`       | 210     | Starting angle of arc                    |
+| `end_angle`        | `int`       | -30     | Ending angle of arc                      |
+| `bottom_text_size` | `int`       | 12      | Font size of bottom text (units)         |
+| `label_size`       | `int`       | 12      | Font size of label                       |
+| `value_size`       | `int`       | 14      | Font size of main value                  |
+| `label_spacing`    | `float`     | 0.7     | Spacing of label relative to dial radius |
+| `needle`           | `bool`      | `True`  | Show/hide needle                         |
+| `odometer`         | `bool`      | `False` | Show odometer style numeric display      |
 
 ---
 
