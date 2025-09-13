@@ -6,19 +6,12 @@
 ---
 
 ## ✨ Features
-
-- 🎨 **Customizable Appearance**  
-  - Colors for dial, needle, ticks, labels, and text.  
-  - Flexible sizing and label spacing.  
-
-- ⚡ **Rich Configuration**  
-  - Define min/max values, major/minor ticks, and angles.  
-  - Add labels, units, and bottom text.  
-  - Optional **needle toggle** for minimalist gauges.  
-
-- 📟 **Special Add-ons**  
-  - Built-in support for **Odometer** style display.  
-  - Works seamlessly with layouts (Grid, HBox, VBox).  
+- 🎨 Fully customizable colors, labels, and fonts  
+- ⚡ Smooth, animated needle rendering  
+- 📏 Configurable tick marks, angles, and scales  
+- 🛠️ Support for **odometer display**  
+- 📐 Easily integrate into PySide6 layouts (QHBox, QVBox, QGrid)  
+- 💡 Create dashboards with multiple gauges  
 
 ---
 
