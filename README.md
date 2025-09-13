@@ -1,5 +1,55 @@
+# 🚗 CustomGauge Dashboard (PySide6)
+
 <img width="1252" height="469" alt="image" src="https://github.com/user-attachments/assets/dcc18a72-e95b-4fda-a72f-650ebbe87803" />
-Example Usage:
+**CustomGauge** is a fully customizable PySide6 widget for building beautiful dashboards with gauges — perfect for automotive-style UIs, monitoring panels, or any real-time visualization of values.
+
+---
+
+## ✨ Features
+
+- 🎨 **Customizable Appearance**  
+  - Colors for dial, needle, ticks, labels, and text.  
+  - Flexible sizing and label spacing.  
+
+- ⚡ **Rich Configuration**  
+  - Define min/max values, major/minor ticks, and angles.  
+  - Add labels, units, and bottom text.  
+  - Optional **needle toggle** for minimalist gauges.  
+
+- 📟 **Special Add-ons**  
+  - Built-in support for **Odometer** style display.  
+  - Works seamlessly with layouts (Grid, HBox, VBox).  
+
+---
+
+## 📦 Installation
+
+```bash
+pip install PySide6
+
+---
+
+## 📚 API Overview
+
+| Parameter       | Type        | Description                               |
+| --------------- | ----------- | ----------------------------------------- |
+| `label`         | `str`       | Main label (e.g., "RPM", "FUEL")          |
+| `units`         | `str`       | Units shown (e.g., "PSI", "°F")           |
+| `min_value`     | `int/float` | Minimum gauge value                       |
+| `max_value`     | `int/float` | Maximum gauge value                       |
+| `major_tick`    | `int/float` | Step for major ticks                      |
+| `minor_tick`    | `int/float` | Step for minor ticks                      |
+| `start_angle`   | `int`       | Starting angle (degrees)                  |
+| `end_angle`     | `int`       | Ending angle (degrees)                    |
+| `needle_color`  | `QColor`    | Needle color                              |
+| `dial_color`    | `QColor`    | Dial arc color                            |
+| `label_spacing` | `float`     | Adjust spacing between dial and labels    |
+| `odometer`      | `bool`      | Enable odometer display (for speedometer) |
+| `needle`        | `bool`      | Show or hide the needle                   |
+
+---
+
+## 🛠️ Quick Start Demo (Full Dashboard)
 
 ```python
 from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QGridLayout
@@ -135,4 +185,37 @@ if __name__ == "__main__":
     window.show()
     sys.exit(app.exec())
 
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+Feel free to check the issues page
+ or submit a pull request.
+
+If you’d like to:
+
+Fix bugs 🐛
+
+Improve performance ⚡
+
+Add new features 🎉
+
+Enhance documentation 📖
+
+… we’d love your input!
+
+---
+
+## 🔮 Future Enhancements
+
+⏱️ Real-time updates from sensors or APIs
+
+🌀 Animated needle movement for smooth transitions
+
+🌈 Themes & presets (dark mode, automotive, sci-fi)
+
+📊 Data bindings (connect gauges directly to live values)
+
+🖥️ Demo app with multiple dashboard layouts
 
