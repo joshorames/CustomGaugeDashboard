@@ -20,7 +20,9 @@ class CustomGauge(QWidget):
         start_angle=210,      # default sweep start
         end_angle=-30,        # default sweep end
         parent=None,
-        odometer=False
+        odometer=False,
+        bottom_text_size=14,
+        label_size=16
     ):
         """_summary_
 
@@ -50,6 +52,8 @@ class CustomGauge(QWidget):
         self.setMinimumSize(400, 400)
         self.setWindowTitle("Custom Gauge")
         self.odometer = odometer
+        self.bottom_text_size = bottom_text_size 
+        self.label_size = label_size
 
     def set_value(self, value):
         """_summary_
@@ -125,9 +129,9 @@ class CustomGauge(QWidget):
         painter.drawEllipse(center, dial_radius, dial_radius)
 
         # Draw label
-        painter.setFont(QFont("Arial", 20, QFont.Bold))
+        painter.setFont(QFont("Arial", self.label_size, QFont.Bold))
         painter.setPen(Qt.white)
-        painter.drawText(QRectF(center.x()-radius*0.25, center.y()-radius*0.22, radius*0.5, radius*0.18), Qt.AlignCenter, self.label)
+        painter.drawText(QRectF(center.x()-radius*0.25, center.y()-radius*0.25, radius*0.5, radius*0.18), Qt.AlignCenter, self.label)
 
         # Draw odometer rectangle (optional, static)
         odo_w = radius * 0.6
@@ -141,64 +145,7 @@ class CustomGauge(QWidget):
             painter.drawText(odo_rect, Qt.AlignCenter, "000000")
 
         # Draw value text (below odometer)
-        painter.setFont(QFont("Arial", 16, QFont.Bold))
+        painter.setFont(QFont("Arial", self.bottom_text_size, QFont.Bold))
         painter.setPen(Qt.white)
         painter.drawText(QRectF(center.x()-odo_w/2, center.y()+radius*0.5, odo_w, odo_h), Qt.AlignCenter, f"{self.value} {self.units}")
 
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = QWidget()
-    layout = QHBoxLayout(window)
-
-    # Large speedometer
-    gauge1 = CustomGauge(
-        label="SPEED",
-        units="MPH",
-        needle_color=QColor("orange"),
-        dial_color=QColor("orange"),
-        min_value=0,
-        max_value=120,
-        major_tick=10,
-        minor_tick=5,
-        start_angle=210,
-        end_angle=-30, odometer=True
-    )
-    gauge1.setFixedSize(400, 400)
-    layout.addWidget(gauge1)
-
-    # Medium tachometer
-    gauge2 = CustomGauge(
-        label="TACH",
-        units="RPM",
-        needle_color=QColor("red"),
-        dial_color=QColor("red"),
-        min_value=0,
-        max_value=8,
-        major_tick=1,
-        minor_tick=1,
-        start_angle=210,
-        end_angle=-30
-    )
-    gauge2.setFixedSize(300, 300)
-    layout.addWidget(gauge2)
-
-    # Small battery gauge
-    gauge3 = CustomGauge(
-        label="BAT",
-        units="V",
-        needle_color=QColor("green"),
-        dial_color=QColor("green"),
-        min_value=0,
-        max_value=16,
-        major_tick=2,
-        minor_tick=1,
-        start_angle=210,
-        end_angle=-30
-    )
-    gauge3.setFixedSize(200, 200)
-    layout.addWidget(gauge3)
-
-    window.setLayout(layout)
-    window.show()
-    sys.exit(app.exec())

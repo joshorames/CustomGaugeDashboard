@@ -1,6 +1,5 @@
-from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout
+from PySide6.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QGridLayout
 from PySide6.QtGui import QColor
-from PySide6.QtCore import QTimer
 import sys
 from CustomGauge import CustomGauge
 
@@ -8,48 +7,115 @@ from CustomGauge import CustomGauge
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = QWidget()
-    layout = QHBoxLayout(window)
+    main_layout = QHBoxLayout(window)
 
-    # Speedometer gauge
-    gauge1 = CustomGauge(
-        label="SPEED",
-        units="MPH",
-        needle_color=QColor("orange"),
-        dial_color=QColor("orange"),
-        min_value=0,
-        max_value=120,
-        major_tick=10,
-        minor_tick=5,
-        start_angle=210,
-        end_angle=-30
-    )
-    layout.addWidget(gauge1)
-
-    # Tachometer gauge
-    gauge2 = CustomGauge(
-        label="TACH",
-        units="RPM",
+    # Left: 2x2 grid of small gauges
+    left_grid = QGridLayout()
+    oil_gauge = CustomGauge(
+        label="OIL",
+        units="PSI",
         needle_color=QColor("red"),
         dial_color=QColor("red"),
         min_value=0,
-        max_value=8,
+        max_value=100,
+        major_tick=25,
+        minor_tick=5,
+        start_angle=210,
+        end_angle=-30,
+        bottom_text_size=10,
+        label_size=10
+    )
+    oil_gauge.setFixedSize(200, 200)
+    left_grid.addWidget(oil_gauge, 0, 0)
+
+    water_gauge = CustomGauge(
+        label="WATER",
+        units="°F",
+        needle_color=QColor("red"),
+        dial_color=QColor("red"),
+        min_value=100,
+        max_value=250,
+        major_tick=50,
+        minor_tick=10,
+        start_angle=210,
+        end_angle=-30,
+        bottom_text_size=10,
+        label_size=10
+    )
+    water_gauge.setFixedSize(200, 200)
+    left_grid.addWidget(water_gauge, 0, 1)
+
+    volt_gauge = CustomGauge(
+        label="VOLTS",
+        units="V",
+        needle_color=QColor("red"),
+        dial_color=QColor("red"),
+        min_value=8,
+        max_value=18,
+        major_tick=2,
+        minor_tick=1,
+        start_angle=210,
+        end_angle=-30,
+        bottom_text_size=10,
+        label_size=10
+    )
+    volt_gauge.setFixedSize(200, 200)
+    left_grid.addWidget(volt_gauge, 1, 0)
+
+    fuel_gauge = CustomGauge(
+        label="FUEL",
+        units="F",
+        needle_color=QColor("red"),
+        dial_color=QColor("red"),
+        min_value=0,
+        max_value=1,
+        major_tick=1,
+        minor_tick=1,
+        start_angle=210,
+        end_angle=-30,
+        bottom_text_size=10,
+        label_size=10
+    )
+    fuel_gauge.setFixedSize(200, 200)
+    left_grid.addWidget(fuel_gauge, 1, 1)
+
+    main_layout.addLayout(left_grid)
+
+    # Center: two large gauges side by side
+    center_row = QHBoxLayout()
+    speedometer = CustomGauge(
+        label="MPH",
+        units="MPH",
+        needle_color=QColor("red"),
+        dial_color=QColor("red"),
+        min_value=0,
+        max_value=160,
+        major_tick=20,
+        minor_tick=10,
+        start_angle=210,
+        end_angle=-30,
+        odometer=True
+    )
+    speedometer.setFixedSize(400, 400)
+    center_row.addWidget(speedometer)
+
+    tachometer = CustomGauge(
+        label="RPM",
+        units="x1000",
+        needle_color=QColor("red"),
+        dial_color=QColor("red"),
+        min_value=0,
+        max_value=10,
         major_tick=1,
         minor_tick=1,
         start_angle=210,
         end_angle=-30
     )
-    layout.addWidget(gauge2)
+    tachometer.setFixedSize(400, 400)
+    center_row.addWidget(tachometer)
 
-    # Test value updates
-    def update_value():
-        gauge1.set_value((gauge1.value + 1) % 121)      # Speedometer: 0-120
-        gauge2.set_value((gauge2.value + 1) % 9)   # Tachometer: 0-8000
+    main_layout.addLayout(center_row)
 
-    timer = QTimer()
-    timer.timeout.connect(update_value)
-    timer.start(100)  # Update value every 100 ms
-
-    window.setLayout(layout)
-    window.resize(900, 500)
+    window.setLayout(main_layout)
     window.show()
     sys.exit(app.exec())
