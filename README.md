@@ -19,7 +19,6 @@
 
 ```bash
 pip install PySide6
-end
 ```
 
 ---
@@ -182,7 +181,6 @@ if __name__ == "__main__":
     window.setLayout(main_layout)
     window.show()
     sys.exit(app.exec())
-end
 ```
 
 ---
