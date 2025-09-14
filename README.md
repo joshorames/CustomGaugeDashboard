@@ -1,6 +1,7 @@
 # 🚗 CustomGauge Dashboard (PySide6)
 
 <img width="1234" height="459" alt="image" src="https://github.com/user-attachments/assets/e03f0d74-01f7-4874-8d26-8c1751ac4b28" />
+<img width="1234" height="600" alt="image" src="https://github.com/user-attachments/assets/64117774-e336-41e4-9568-5caa4674b392" />
 **CustomGauge** is a fully customizable PySide6 widget for building beautiful dashboards with gauges — perfect for automotive-style UIs, monitoring panels, or any real-time visualization of values.
 
 ---
@@ -9,7 +10,8 @@
 - 🎨 Fully customizable colors, labels, and fonts  
 - ⚡ Smooth, animated needle rendering  
 - 📏 Configurable tick marks, angles, and scales  
-- 🛠️ Support for **odometer display**  
+- 🛠️ Support for **odometer display**
+- ☝️ Dragging gauge support to place gauges at correct size for any application
 - 📐 Easily integrate into PySide6 layouts (QHBox, QVBox, QGrid)  
 - 💡 Create dashboards with multiple gauges  
 
@@ -43,6 +45,7 @@ pip install PySide6
 | `label_spacing`    | `float`     | 0.7     | Spacing of label relative to dial radius |
 | `needle`           | `bool`      | `True`  | Show/hide needle                         |
 | `odometer`         | `bool`      | `False` | Show odometer style numeric display      |
+| `fuel_ticks`       | `bool`      | `False` | Show E and F at start/end points of gauge|
 
 ---
 
