@@ -9,7 +9,8 @@
 - 🎨 Fully customizable colors, labels, and fonts  
 - ⚡ Smooth, animated needle rendering  
 - 📏 Configurable tick marks, angles, and scales  
-- 🛠️ Support for **odometer display**  
+- 🛠️ Support for **odometer display**
+- ☝️ Dragging gauge support to place gauges at correct size for any application
 - 📐 Easily integrate into PySide6 layouts (QHBox, QVBox, QGrid)  
 - 💡 Create dashboards with multiple gauges  
 
@@ -43,6 +44,7 @@ pip install PySide6
 | `label_spacing`    | `float`     | 0.7     | Spacing of label relative to dial radius |
 | `needle`           | `bool`      | `True`  | Show/hide needle                         |
 | `odometer`         | `bool`      | `False` | Show odometer style numeric display      |
+| `fuel_ticks`       | `bool`      | `False` | Show E and F at start/end points of gauge|
 
 ---
 
