@@ -9,6 +9,7 @@ from PySide6.QtCore import QTimer
 class CustomGauge(QWidget):
     def __init__(
         self,
+        needle=True,
         min_value=0,
         max_value=120,
         major_tick=10,
@@ -24,7 +25,9 @@ class CustomGauge(QWidget):
         bottom_text_size=14,
         label_size=16,
         value_size=16,
-        label_spacing=0.65
+        label_spacing=0.65,
+        odometer_font_size=16,
+        fuel_ticks=False
     ):
         """_summary_
 
@@ -40,6 +43,7 @@ class CustomGauge(QWidget):
             start_angle (int, optional): _description_. Defaults to 210.
         """
         super().__init__(parent)
+        self.needle = needle
         self.value = min_value
         self.min_value = min_value
         self.max_value = max_value
@@ -58,6 +62,8 @@ class CustomGauge(QWidget):
         self.label_size = label_size
         self.value_size = value_size
         self.label_spacing = label_spacing
+        self.odometer_font_size = odometer_font_size
+        self.fuel_ticks = fuel_ticks
 
     def set_value(self, value):
         """_summary_
@@ -107,26 +113,33 @@ class CustomGauge(QWidget):
                 tx = center.x() + number_offset * math.cos(rad)
                 ty = center.y() - number_offset * math.sin(rad)
                 painter.setPen(Qt.white)
-                painter.drawText(QRectF(tx-text_box/2, ty-text_box/2, text_box, text_box), Qt.AlignCenter, str(i))
+                if self.fuel_ticks:
+                    if i == self.min_value:
+                        painter.drawText(QRectF(tx-text_box/2, ty-text_box/2, text_box, text_box), Qt.AlignCenter, "E")
+                    elif i == self.max_value:   
+                        painter.drawText(QRectF(tx-text_box/2, ty-text_box/2, text_box, text_box), Qt.AlignCenter, "F")
+                else:
+                    painter.drawText(QRectF(tx-text_box/2, ty-text_box/2, text_box, text_box), Qt.AlignCenter, str(i))
             # Minor ticks
             else:
                 painter.setPen(QPen(Qt.gray, max(1, int(radius * 0.015))))
                 painter.drawLine(QPointF(x1, y1), QPointF(center.x() + minor_tick_inner * math.cos(rad), center.y() - minor_tick_inner * math.sin(rad)))
 
         # Draw needle
-        needle_length = radius * 0.75
-        needle_angle = self.start_angle - ((self.value - self.min_value) * sweep / value_range)
-        rad = math.radians(needle_angle)
-        nx = center.x() + needle_length * math.cos(rad)
-        ny = center.y() - needle_length * math.sin(rad)
-        painter.setPen(QPen(self.needle_color, max(6, int(radius * 0.05))))
-        painter.drawLine(center, QPointF(nx, ny))
+        if self.needle == True:
+            needle_length = radius * 0.75
+            needle_angle = self.start_angle - ((self.value - self.min_value) * sweep / value_range)
+            rad = math.radians(needle_angle)
+            nx = center.x() + needle_length * math.cos(rad)
+            ny = center.y() - needle_length * math.sin(rad)
+            painter.setPen(QPen(self.needle_color, max(6, int(radius * 0.05))))
+            painter.drawLine(center, QPointF(nx, ny))
 
-        # Draw center dial piece
-        dial_radius = radius * 0.09
-        painter.setPen(self.dial_color)
-        painter.setBrush(self.dial_color)
-        painter.drawEllipse(center, dial_radius, dial_radius)
+            # Draw center dial piece
+            dial_radius = radius * 0.09
+            painter.setPen(self.dial_color)
+            painter.setBrush(self.dial_color)
+            painter.drawEllipse(center, dial_radius, dial_radius)
 
         # Draw label
         painter.setFont(QFont("Arial", self.label_size, QFont.Bold))
@@ -141,7 +154,7 @@ class CustomGauge(QWidget):
             painter.setPen(Qt.white)
             painter.setBrush(Qt.black)
             painter.drawRect(odo_rect)
-            painter.setFont(QFont("Consolas", 16, QFont.Bold))
+            painter.setFont(QFont("Consolas", self.odometer_font_size, QFont.Bold))
             painter.drawText(odo_rect, Qt.AlignCenter, "000000")
 
         # Draw value text (below odometer)

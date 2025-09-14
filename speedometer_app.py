@@ -25,7 +25,7 @@ if __name__ == "__main__":
         bottom_text_size=10,
         label_size=10,
         value_size=10,
-        label_spacing=0.65
+        label_spacing=0.65,
     )
     oil_gauge.setFixedSize(200, 200)
     left_grid.addWidget(oil_gauge, 0, 0)
@@ -74,15 +74,16 @@ if __name__ == "__main__":
         needle_color=QColor("red"),
         dial_color=QColor("red"),
         min_value=0,
-        max_value=1,
-        major_tick=1,
+        max_value=10,
+        major_tick=10,
         minor_tick=1,
         start_angle=210,
         end_angle=-30,
         bottom_text_size=10,
         label_size=10,
         value_size=10,
-        label_spacing=0.65
+        label_spacing=0.65,
+        fuel_ticks=True
     )
     fuel_gauge.setFixedSize(200, 200)
     left_grid.addWidget(fuel_gauge, 1, 1)
