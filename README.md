@@ -1,6 +1,8 @@
 # 🚗 CustomGauge Dashboard (PySide6)
 
 <img width="1234" height="459" alt="image" src="https://github.com/user-attachments/assets/e03f0d74-01f7-4874-8d26-8c1751ac4b28" />
+![Uploading image.png…]()
+
 **CustomGauge** is a fully customizable PySide6 widget for building beautiful dashboards with gauges — perfect for automotive-style UIs, monitoring panels, or any real-time visualization of values.
 
 ---
