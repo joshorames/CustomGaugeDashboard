@@ -5,7 +5,98 @@
 **CustomGauge** is a fully customizable PySide6 widget for building beautiful dashboards with gauges — perfect for automotive-style UIs, monitoring panels, or any real-time visualization of values.
 
 ---
+🔹 1. Prepare a “master” Raspberry Pi
 
+Flash a fresh Raspberry Pi OS onto an SD card.
+
+Boot the Pi and set it up (update packages, set hostname, Wi-Fi, etc. if you like).
+
+sudo apt update && sudo apt upgrade -y
+
+
+Install Python + dependencies for your project:
+
+sudo apt install python3 python3-pip git -y
+
+
+Clone your repo and install requirements:
+
+cd ~
+git clone https://github.com/joshorames/CustomGaugeDashboard.git
+cd CustomGaugeDashboard
+pip3 install -r requirements.txt
+
+
+Configure autostart for GUI (as I explained earlier with ~/.config/autostart/dashboard.desktop).
+
+Reboot and test: your dashboard should pop up on boot.
+
+🔹 2. Clean up before making the image
+
+To keep the image small:
+
+sudo apt autoremove -y
+sudo apt clean
+
+
+(Optional: delete history/logs if you want a “fresh” feel.)
+
+history -c
+sudo rm -rf /var/log/*
+
+🔹 3. Shut down the Pi
+sudo poweroff
+
+
+Remove the SD card and plug it into another computer (Linux or Windows with tools).
+
+🔹 4. Create a custom image
+On Linux/macOS
+
+Find the SD card device:
+
+lsblk
+
+
+Then clone it into an image file (replace sdX with your SD card device):
+
+sudo dd if=/dev/sdX of=~/CustomGaugeDashboard.img bs=4M status=progress
+sync
+
+
+Now CustomGaugeDashboard.img is your custom OS image.
+
+On Windows
+
+Use Win32 Disk Imager:
+
+Insert SD card.
+
+Open Win32 Disk Imager.
+
+Choose an output file name (e.g. CustomGaugeDashboard.img).
+
+Select the SD card drive.
+
+Click Read (this copies SD → image).
+
+🔹 5. Compress & distribute (optional)
+
+Compress the image so it’s smaller:
+
+xz -z -9 CustomGaugeDashboard.img
+
+
+Now you can share CustomGaugeDashboard.img.xz.
+
+🔹 6. Flash to other Pis
+
+Use Raspberry Pi Imager, balenaEtcher, or dd again to write the image back to SD cards. Any Pi you boot with it will:
+
+Auto-login
+
+Launch your dashboard GUI on boot
+---
 ## ✨ Features
 - 🎨 Fully customizable colors, labels, and fonts  
 - ⚡ Smooth, animated needle rendering  
