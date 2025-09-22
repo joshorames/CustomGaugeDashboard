@@ -5,6 +5,7 @@
 **CustomGauge** is a fully customizable PySide6 widget for building beautiful dashboards with gauges — perfect for automotive-style UIs, monitoring panels, or any real-time visualization of values.
 
 ---
+## Create Reusable Pi Image
 🔹 1. Prepare a “master” Raspberry Pi
 
 Flash a fresh Raspberry Pi OS onto an SD card.
