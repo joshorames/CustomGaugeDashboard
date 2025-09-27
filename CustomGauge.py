@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout
-from PySide6.QtGui import QPainter, QPen, QFont, QColor, QPolygonF, QPixmap
+from PySide6.QtGui import QPainter, QPen, QFont, QColor, QPolygonF, QPixmap, QImage
 from PySide6.QtCore import Qt, QRectF, QPointF, QPoint
 import sys
 import math
@@ -203,38 +203,58 @@ class TurnSignal(QWidget):
             points = [QPointF(w*0.2, h*0.2), QPointF(w*0.8, h*0.5), QPointF(w*0.2, h*0.8)]
         painter.drawPolygon(QPolygonF(points))
         
+from PySide6.QtWidgets import QWidget
+from PySide6.QtGui import QPainter, QPixmap, QColor, QFont, QImage
+from PySide6.QtCore import Qt, QRectF
+
 class AlertIcon(QWidget):
     def __init__(self, icon_path, label="", active_color="red", inactive_color="gray", parent=None):
         super().__init__(parent)
-        # Load the icon as is (transparent background)
-        self.base_icon = QPixmap(icon_path).scaled(40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        self.icon_path = icon_path
         self.label = label
         self.active_color = QColor(active_color)
         self.inactive_color = QColor(inactive_color)
+
+        self.base_icon = QPixmap(icon_path).scaled(
+            40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation
+        )
+        if self.base_icon.isNull():
+            print(f"⚠️ Could not load icon: {icon_path}")
+
         self.active = False
-        self.setFixedSize(50, 60)
+        self.setFixedSize(50, 65)
+
+        # Precompute both versions
+        self.colored_active = self.colorize_icon(self.base_icon, self.active_color)
+        self.colored_inactive = self.colorize_icon(self.base_icon, self.inactive_color)
 
     def set_active(self, state: bool):
         self.active = state
         self.update()
 
+    def colorize_icon(self, pixmap: QPixmap, color: QColor) -> QPixmap:
+        """Recolor only the symbol (non-transparent) pixels of the pixmap"""
+        img = pixmap.toImage().convertToFormat(QImage.Format_ARGB32)
+
+        for y in range(img.height()):
+            for x in range(img.width()):
+                pixel = img.pixelColor(x, y)
+                if pixel.alpha() > 0:  # Only recolor the symbol pixels
+                    new = QColor(color)
+                    new.setAlpha(pixel.alpha())  # preserve alpha channel
+                    img.setPixelColor(x, y, new)
+
+        return QPixmap.fromImage(img)
+
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        # Draw a background circle to indicate state
-        radius = 20
-        center = QPoint(25, 25)
-        color = self.active_color if self.active else self.inactive_color
-        painter.setBrush(color)
-        painter.setPen(Qt.NoPen)
-        painter.drawEllipse(center, radius, radius)
+        icon = self.colored_active if self.active else self.colored_inactive
+        painter.drawPixmap(5, 5, icon)
 
-        # Draw the icon on top
-        painter.drawPixmap(5, 5, self.base_icon)
-
-        # Draw label under icon
+        # Draw label under the icon
         if self.label:
             painter.setPen(Qt.white)
-            painter.setFont(QFont("Arial", 10, QFont.Bold))
-            painter.drawText(QRectF(0, 45, 50, 15), Qt.AlignCenter, self.label)
+            painter.setFont(QFont("Arial", 9, QFont.Bold))
+            painter.drawText(QRectF(0, 47, 50, 15), Qt.AlignCenter, self.label)

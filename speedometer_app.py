@@ -145,8 +145,11 @@ class DashboardSetupDialog(QDialog):
         factor = self.scale_factors[idx]
         base = self.default_sizes[idx]
         size = int(base * factor)
-        self.widgets[idx].widget.setFixedSize(size, size)
-        self.widgets[idx].setFixedSize(size, size)
+
+        # FIX: use .gauge not .widget
+        self.widgets[idx].gauge.setFixedSize(size, size)  
+        self.widgets[idx].setFixedSize(size, size)       
+
         self.scales[self.widgets[idx].name] = size
 
     def decrease_scale(self):
@@ -210,7 +213,7 @@ if __name__ == "__main__":
     # Add dashboard alert icons
     alerts = {
         "check_engine": AlertIcon("icons/check_engine.png", "ENGINE"),
-        "oil": AlertIcon("icons\oil.png", "OIL"),
+        "oil": AlertIcon("icons/oil.png", "OIL"),
         "abs": AlertIcon("icons/abs.png", "ABS"),
     }
 
