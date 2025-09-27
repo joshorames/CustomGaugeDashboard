@@ -5,7 +5,99 @@
 **CustomGauge** is a fully customizable PySide6 widget for building beautiful dashboards with gauges — perfect for automotive-style UIs, monitoring panels, or any real-time visualization of values.
 
 ---
+## Create Reusable Pi Image
+🔹 1. Prepare a “master” Raspberry Pi
 
+Flash a fresh Raspberry Pi OS onto an SD card.
+
+Boot the Pi and set it up (update packages, set hostname, Wi-Fi, etc. if you like).
+
+sudo apt update && sudo apt upgrade -y
+
+
+Install Python + dependencies for your project:
+
+sudo apt install python3 python3-pip git -y
+
+
+Clone your repo and install requirements:
+
+cd ~
+git clone https://github.com/joshorames/CustomGaugeDashboard.git
+cd CustomGaugeDashboard
+pip3 install -r requirements.txt
+
+
+Configure autostart for GUI (as I explained earlier with ~/.config/autostart/dashboard.desktop).
+
+Reboot and test: your dashboard should pop up on boot.
+
+🔹 2. Clean up before making the image
+
+To keep the image small:
+
+sudo apt autoremove -y
+sudo apt clean
+
+
+(Optional: delete history/logs if you want a “fresh” feel.)
+
+history -c
+sudo rm -rf /var/log/*
+
+🔹 3. Shut down the Pi
+sudo poweroff
+
+
+Remove the SD card and plug it into another computer (Linux or Windows with tools).
+
+🔹 4. Create a custom image
+On Linux/macOS
+
+Find the SD card device:
+
+lsblk
+
+
+Then clone it into an image file (replace sdX with your SD card device):
+
+sudo dd if=/dev/sdX of=~/CustomGaugeDashboard.img bs=4M status=progress
+sync
+
+
+Now CustomGaugeDashboard.img is your custom OS image.
+
+On Windows
+
+Use Win32 Disk Imager:
+
+Insert SD card.
+
+Open Win32 Disk Imager.
+
+Choose an output file name (e.g. CustomGaugeDashboard.img).
+
+Select the SD card drive.
+
+Click Read (this copies SD → image).
+
+🔹 5. Compress & distribute (optional)
+
+Compress the image so it’s smaller:
+
+xz -z -9 CustomGaugeDashboard.img
+
+
+Now you can share CustomGaugeDashboard.img.xz.
+
+🔹 6. Flash to other Pis
+
+Use Raspberry Pi Imager, balenaEtcher, or dd again to write the image back to SD cards. Any Pi you boot with it will:
+
+Auto-login
+
+Launch your dashboard GUI on boot
+---
 ## ✨ Features
 - 🎨 Fully customizable colors, labels, and fonts  
 - ⚡ Smooth, animated needle rendering  
@@ -208,23 +300,24 @@ Feel free to check the issues page
 
 🖥️ Demo app with multiple dashboard layouts
 
-## MIT License
+## License
 
-Copyright (c) 2025 Joshua Orames
+Copyright (c) 2025 Josh Orames
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software and associated documentation files (the "Software"), to use,
+copy, modify, and distribute the Software for personal, educational, or
+research purposes only, subject to the following conditions:
+
+- Commercial use of the Software is strictly prohibited without prior written
+  permission from the copyright holder.
+- The copyright holder (Josh Orames) reserves all rights to commercial use,
+  including but not limited to licensing, distribution, and derivative works.
+- The above copyright notice and this permission notice shall be included
+  in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 
 
