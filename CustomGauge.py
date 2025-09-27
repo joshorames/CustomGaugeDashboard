@@ -7,26 +7,46 @@ from PySide6.QtCore import QTimer
 
 
 class CustomGauge(QWidget):
+    """A customizable gauge widget with needle, ticks, labels, and optional odometer."""
     def __init__(
         self,
+        # Determine if needle is rendered or not
         needle=True,
+        # Min value of the gauge
         min_value=0,
+        # Max value of the gauge
         max_value=120,
+        # Number of major ticks
         major_tick=10,
+        # Number of minor ticks
         minor_tick=5,
+        # Label text (can include \n for multi-line)
         label="MPH\nkm/h",
+        # Units text (displayed below value)
         units="MPH",
+        # Needle color
         needle_color=QColor("orange"),
+        # Dial center color
         dial_color=QColor("orange"),
-        start_angle=210,      # default sweep start
-        end_angle=-30,        # default sweep end
+        # Start angle of the gauge (in degrees)
+        start_angle=210,  
+        # End angle of the gauge (in degrees)   
+        end_angle=-30,       
+        # Optional parent widget 
         parent=None,
+        # Optional odometer display below the gauge
         odometer=False,
+        # Bottom text size (value + units)
         bottom_text_size=14,
+        # Label text size
         label_size=16,
+        # Value text size
         value_size=16,
+        # Spacing factor for label numbers (0.0 to 1.0, where 1.0 is at the edge)
         label_spacing=0.65,
+        # Odometer font size
         odometer_font_size=16,
+        # Use E and F for fuel gauge instead of 0 and max_value
         fuel_ticks=False
     ):
         """_summary_
@@ -69,7 +89,7 @@ class CustomGauge(QWidget):
         """_summary_
 
         Args:
-            value (_type_): _description_
+            value (integer): Value to set the gauge to
         """
         self.value = max(self.min_value, min(value, self.max_value))
         self.update()
@@ -163,7 +183,15 @@ class CustomGauge(QWidget):
         painter.drawText(QRectF(center.x()-odo_w/2, center.y()+radius*0.5, odo_w, odo_h), Qt.AlignCenter, f"{self.value} {self.units}")
 
 class TurnSignal(QWidget):
+    """A blinking turn signal arrow widget."""
     def __init__(self, direction="left", color="green", parent=None):
+        """_summary_
+
+        Args:
+            direction (str, optional): Direction the arrow faces. Defaults to "left".
+            color (str, optional): color of the arrow signal. Defaults to "green".
+            parent (any, optional): parent object of arrow. Defaults to None.
+        """
         super().__init__(parent)
         self.direction = direction
         self.color = QColor(color)
@@ -174,21 +202,25 @@ class TurnSignal(QWidget):
         self.setFixedSize(60, 60)
 
     def start(self):
+        """Start blinking the turn signal."""
         self.on = True
         self.timer.start(500)  # blink every 500ms
         self.update()
 
     def stop(self):
+        """Stop blinking the turn signal."""
         self.on = False
         self.visible_state = False
         self.timer.stop()
         self.update()
 
     def toggle(self):
+        """Toggle the visibility state of the turn signal."""
         self.visible_state = not self.visible_state
         self.update()
 
     def paintEvent(self, event):
+        """Render the turn signal arrow if it's on and visible."""
         if not self.on or not self.visible_state:
             return
         painter = QPainter(self)
@@ -208,7 +240,17 @@ from PySide6.QtGui import QPainter, QPixmap, QColor, QFont, QImage
 from PySide6.QtCore import Qt, QRectF
 
 class AlertIcon(QWidget):
+    """A dashboard alert icon with active/inactive states."""
     def __init__(self, icon_path, label="", active_color="red", inactive_color="gray", parent=None):
+        """_summary_
+
+        Args:
+            icon_path (str): path at which icon image is located. Defaults to "".
+            label (str, optional): Label under the icon. Defaults to "".
+            active_color (str, optional): Color the icon turns when active. Defaults to "red".
+            inactive_color (str, optional): Color the icon turns when inactive. Defaults to "gray".
+            parent (any, optional): Parent object. Defaults to None.
+        """
         super().__init__(parent)
         self.icon_path = icon_path
         self.label = label
@@ -229,6 +271,7 @@ class AlertIcon(QWidget):
         self.colored_inactive = self.colorize_icon(self.base_icon, self.inactive_color)
 
     def set_active(self, state: bool):
+        """Set the active state of the icon."""
         self.active = state
         self.update()
 
@@ -247,6 +290,7 @@ class AlertIcon(QWidget):
         return QPixmap.fromImage(img)
 
     def paintEvent(self, event):
+        """Render the icon with appropriate color and label."""
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
