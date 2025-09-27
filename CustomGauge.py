@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout
-from PySide6.QtGui import QPainter, QPen, QFont, QColor
-from PySide6.QtCore import Qt, QRectF, QPointF
+from PySide6.QtGui import QPainter, QPen, QFont, QColor, QPolygonF, QPixmap
+from PySide6.QtCore import Qt, QRectF, QPointF, QPoint
 import sys
 import math
 from PySide6.QtCore import QTimer
@@ -162,3 +162,79 @@ class CustomGauge(QWidget):
         painter.setPen(Qt.white)
         painter.drawText(QRectF(center.x()-odo_w/2, center.y()+radius*0.5, odo_w, odo_h), Qt.AlignCenter, f"{self.value} {self.units}")
 
+class TurnSignal(QWidget):
+    def __init__(self, direction="left", color="green", parent=None):
+        super().__init__(parent)
+        self.direction = direction
+        self.color = QColor(color)
+        self.on = False
+        self.visible_state = False
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.toggle)
+        self.setFixedSize(60, 60)
+
+    def start(self):
+        self.on = True
+        self.timer.start(500)  # blink every 500ms
+        self.update()
+
+    def stop(self):
+        self.on = False
+        self.visible_state = False
+        self.timer.stop()
+        self.update()
+
+    def toggle(self):
+        self.visible_state = not self.visible_state
+        self.update()
+
+    def paintEvent(self, event):
+        if not self.on or not self.visible_state:
+            return
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+        painter.setBrush(self.color)
+        painter.setPen(Qt.NoPen)
+
+        w, h = self.width(), self.height()
+        if self.direction == "left":
+            points = [QPointF(w*0.8, h*0.2), QPointF(w*0.2, h*0.5), QPointF(w*0.8, h*0.8)]
+        else:
+            points = [QPointF(w*0.2, h*0.2), QPointF(w*0.8, h*0.5), QPointF(w*0.2, h*0.8)]
+        painter.drawPolygon(QPolygonF(points))
+        
+class AlertIcon(QWidget):
+    def __init__(self, icon_path, label="", active_color="red", inactive_color="gray", parent=None):
+        super().__init__(parent)
+        # Load the icon as is (transparent background)
+        self.base_icon = QPixmap(icon_path).scaled(40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        self.label = label
+        self.active_color = QColor(active_color)
+        self.inactive_color = QColor(inactive_color)
+        self.active = False
+        self.setFixedSize(50, 60)
+
+    def set_active(self, state: bool):
+        self.active = state
+        self.update()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
+
+        # Draw a background circle to indicate state
+        radius = 20
+        center = QPoint(25, 25)
+        color = self.active_color if self.active else self.inactive_color
+        painter.setBrush(color)
+        painter.setPen(Qt.NoPen)
+        painter.drawEllipse(center, radius, radius)
+
+        # Draw the icon on top
+        painter.drawPixmap(5, 5, self.base_icon)
+
+        # Draw label under icon
+        if self.label:
+            painter.setPen(Qt.white)
+            painter.setFont(QFont("Arial", 10, QFont.Bold))
+            painter.drawText(QRectF(0, 45, 50, 15), Qt.AlignCenter, self.label)
